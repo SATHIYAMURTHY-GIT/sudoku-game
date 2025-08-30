@@ -1,0 +1,455 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.game-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 600px;
+    min-height: 700px;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.game-header h1 {
+    color: #2d3748;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.game-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.game-info > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.label {
+    font-size: 0.875rem;
+    color: #718096;
+    font-weight: 500;
+}
+
+#currentLevel, #timeDisplay, #scoreDisplay, #mistakesDisplay {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.difficulty {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.difficulty.easy {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.difficulty.medium {
+    background: #fed7d7;
+    color: #742a2a;
+}
+
+.difficulty.hard {
+    background: #fbb6ce;
+    color: #702459;
+}
+
+.game-board-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.sudoku-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 2px;
+    background: #2d3748;
+    border: 3px solid #2d3748;
+    border-radius: 8px;
+    width: 360px;
+    height: 360px;
+    position: relative;
+}
+
+.sudoku-cell {
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+}
+
+.sudoku-cell:hover {
+    background: #f7fafc;
+}
+
+.sudoku-cell.selected {
+    background: #667eea !important;
+    color: white;
+}
+
+.sudoku-cell.highlighted {
+    background: #e2e8f0;
+}
+
+.sudoku-cell.same-number {
+    background: #bee3f8;
+}
+
+.sudoku-cell.prefilled {
+    background: #edf2f7;
+    color: #2d3748;
+    font-weight: 700;
+    cursor: default;
+}
+
+.sudoku-cell.error {
+    background: #fed7d7;
+    color: #c53030;
+    animation: shake 0.5s ease-in-out;
+}
+
+.sudoku-cell.hint {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+/* 3x3 box borders */
+.sudoku-cell:nth-child(3n) {
+    border-right: 2px solid #2d3748;
+}
+
+.sudoku-cell:nth-child(n+19):nth-child(-n+27),
+.sudoku-cell:nth-child(n+46):nth-child(-n+54) {
+    border-bottom: 2px solid #2d3748;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.game-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.number-pad {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+}
+
+.number-btn, .erase-btn {
+    padding: 0.75rem;
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.number-btn:hover, .erase-btn:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+}
+
+.number-btn.selected, .erase-btn.selected {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.erase-btn {
+    background: #fed7d7;
+    border-color: #feb2b2;
+    color: #c53030;
+}
+
+.erase-btn:hover {
+    background: #fbb6ce;
+    border-color: #f687b3;
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+}
+
+.action-btn {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.hint-btn {
+    background: #bee3f8;
+    color: #2a69ac;
+}
+
+.hint-btn:hover {
+    background: #90cdf4;
+}
+
+.hint-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.validate-btn {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.validate-btn:hover {
+    background: #9ae6b4;
+}
+
+.new-game-btn {
+    background: #fed7d7;
+    color: #c53030;
+}
+
+.new-game-btn:hover {
+    background: #fbb6ce;
+}
+
+.level-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+.level-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #667eea;
+    background: white;
+    color: #667eea;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.level-btn:hover:not(:disabled) {
+    background: #667eea;
+    color: white;
+}
+
+.level-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
+    color: #a0aec0;
+}
+
+.level-display {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    color: #2d3748;
+    margin-bottom: 1rem;
+    font-size: 1.75rem;
+}
+
+.completion-stats {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f7fafc;
+    border-radius: 8px;
+}
+
+.completion-stats p {
+    margin: 0.5rem 0;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.modal-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-btn.primary {
+    background: #667eea;
+    color: white;
+}
+
+.modal-btn.primary:hover {
+    background: #5a67d8;
+}
+
+.modal-btn.secondary {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.modal-btn.secondary:hover {
+    background: #cbd5e0;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    .game-container {
+        padding: 1rem;
+    }
+
+    .game-header h1 {
+        font-size: 2rem;
+    }
+
+    .sudoku-grid {
+        width: 300px;
+        height: 300px;
+    }
+
+    .sudoku-cell {
+        font-size: 1rem;
+    }
+
+    .game-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .number-pad {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .level-navigation {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .sudoku-grid {
+        width: 270px;
+        height: 270px;
+    }
+
+    .sudoku-cell {
+        font-size: 0.875rem;
+    }
+
+    .game-container {
+        padding: 0.75rem;
+    }
+}
+
+/* Accessibility */
+.sudoku-cell:focus {
+    outline: 3px solid #667eea;
+    outline-offset: 2px;
+}
+
+.number-btn:focus, .erase-btn:focus, .action-btn:focus, .level-btn:focus, .modal-btn:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
