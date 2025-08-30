@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Master - 15 Levels</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1>Sudoku Master</h1>
+            <div class="game-info">
+                <div class="level-info">
+                    <span class="label">Level:</span>
+                    <span id="currentLevel">1</span>
+                    <span id="difficulty" class="difficulty easy">Easy</span>
+                </div>
+                <div class="timer">
+                    <span class="label">Time:</span>
+                    <span id="timeDisplay">00:00</span>
+                </div>
+                <div class="score">
+                    <span class="label">Score:</span>
+                    <span id="scoreDisplay">0</span>
+                </div>
+                <div class="mistakes">
+                    <span class="label">Mistakes:</span>
+                    <span id="mistakesDisplay">0</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="game-board-container">
+            <div id="sudokuGrid" class="sudoku-grid"></div>
+        </div>
+
+        <div class="game-controls">
+            <div class="number-pad">
+                <button class="number-btn" data-number="1">1</button>
+                <button class="number-btn" data-number="2">2</button>
+                <button class="number-btn" data-number="3">3</button>
+                <button class="number-btn" data-number="4">4</button>
+                <button class="number-btn" data-number="5">5</button>
+                <button class="number-btn" data-number="6">6</button>
+                <button class="number-btn" data-number="7">7</button>
+                <button class="number-btn" data-number="8">8</button>
+                <button class="number-btn" data-number="9">9</button>
+                <button class="erase-btn" data-number="0">Erase</button>
+            </div>
+
+            <div class="action-buttons">
+                <button id="hintBtn" class="action-btn hint-btn">
+                    <span>💡</span>
+                    Hint
+                    <span id="hintsLeft">(3)</span>
+                </button>
+                <button id="validateBtn" class="action-btn validate-btn">
+                    <span>✓</span>
+                    Check
+                </button>
+                <button id="newGameBtn" class="action-btn new-game-btn">
+                    <span>🔄</span>
+                    New Game
+                </button>
+            </div>
+
+            <div class="level-navigation">
+                <button id="prevLevelBtn" class="level-btn" disabled>← Previous</button>
+                <span class="level-display">Level <span id="levelNumber">1</span> of 15</span>
+                <button id="nextLevelBtn" class="level-btn">Next →</button>
+            </div>
+        </div>
+
+        <div id="completionModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>🎉 Level Complete!</h2>
+                <div class="completion-stats">
+                    <p>Time: <span id="completionTime"></span></p>
+                    <p>Score: <span id="completionScore"></span></p>
+                    <p>Mistakes: <span id="completionMistakes"></span></p>
+                </div>
+                <div class="modal-actions">
+                    <button id="nextLevelModalBtn" class="modal-btn primary">Next Level</button>
+                    <button id="replayLevelBtn" class="modal-btn secondary">Replay Level</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameCompleteModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>🏆 Congratulations!</h2>
+                <p>You've completed all 15 levels!</p>
+                <div class="completion-stats">
+                    <p>Total Score: <span id="totalScore"></span></p>
+                </div>
+                <div class="modal-actions">
+                    <button id="restartGameBtn" class="modal-btn primary">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="sudoku-puzzles.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
